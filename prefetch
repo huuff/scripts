@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+if [[ "$1" =~ ^git@ ]] || [[ "$1" =~ \.git$ ]]; then
+  cat <<- END
+  builtins.fetchGit {
+    url = "$1";
+    rev = $(nix-prefetch-git $1 2>/dev/null | jq .rev);
+  };
+END
+else
+  cat <<- END
+  builtins.fetchurl {
+    url = "$1";
+    sha256 = "$(nix-prefetch-url 2>/dev/null $1)";
+  };
+END
+fi
+
+

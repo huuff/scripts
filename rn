@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+# rename files in $EDITOR
+#TODO: work with files not in the same directory
+
+temp=$(mktemp)
+echo "$1" >> "$temp"
+"$EDITOR" "$temp"
+new_name=$(cat "$temp")
+mv "$1" "$new_name"
