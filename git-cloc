@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-
 temp=$(mktemp -d)
 
-git clone --depth 1 "$1" "$temp" && cloc "$temp"
+if [ -n "$2" ];
+then
+  branch="--single-branch --branch $2"
+else
+  branch=""
+fi
+
+git clone --depth 1 $branch "$1" "$temp" && cloc "$temp"
