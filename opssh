@@ -1,0 +1,5 @@
+#/usr/bin/env bash
+# Use op-pass and sshpass to ssh using a password from 1password (op)
+
+sshpass -p $(op-pass "$1" "$2") ssh "$3"
+
