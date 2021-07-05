@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+tmux ls | grep -v attached | awk -F ":" '{print $1}' | xargs -n 1 tmux kill-session -
