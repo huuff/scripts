@@ -2,3 +2,4 @@
 * Port all these to Nix? that ensures that the correct dependencies are installed
 * Lately, nix-prefetch always gives me wrong hashes, look into it
 * opssh doesn't work with key logins
+* nixpath is not working

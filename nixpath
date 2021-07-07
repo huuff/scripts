@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # Get the store path of a package
-nix eval nixpkgs.$1.outPath
+set -x
+nix eval nixpkgs.$1.outPath | tr -d '"'
