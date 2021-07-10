@@ -3,3 +3,4 @@
 * Lately, nix-prefetch always gives me wrong hashes, look into it
 * opssh doesn't work with key logins
 * nix-prefetch might supersede my prefetch script
+* nixpath is not working
