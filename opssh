@@ -1,5 +1,6 @@
 #/usr/bin/env bash
 # Use op-pass and sshpass to ssh using a password from 1password (op)
+set -x
 get_1pass_from_hostname() {
   cat ~/secrets/ssh-to-1pass.json | jq -r ".[\"$1\"].$2"
 }
