@@ -3,3 +3,4 @@
 * Lately, prefetch always gives me wrong hashes, look into it
 * opssh doesn't work with key logins
 * nix-prefetch might supersede my prefetch script. Update: I don't think it does the same thing.
+* removekey by ssh hostname
