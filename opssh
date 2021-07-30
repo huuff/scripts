@@ -8,5 +8,5 @@ get_1pass_from_hostname() {
 op_title="$(get_1pass_from_hostname $1 title)"
 op_section="$(get_1pass_from_hostname $1 section)"
 
-sshpass -p $(op-pass "$op_title" "$op_section") ssh "$1"
+TERM=xterm-256color sshpass -p $(op-pass "$op_title" "$op_section") ssh "$1"
 
