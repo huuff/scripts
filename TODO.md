@@ -3,6 +3,8 @@
 * Lately, prefetch always gives me wrong hashes, look into it
 * opssh doesn't work with key logins
 * nix-prefetch might supersede my prefetch script. Update: I don't think it does the same thing.
+* Script idea: replace something `sed -i` in all files recursively and print changed lines
+* Script idea: Get JSON from clipboard, remove anything extraneous and pretty-print it so I can quickly call it from rofi. UPDATE: I forgot what I meant with "call it from rofi"
 
 ## `rn`
 * Fix it so it works with files that aren't in the same directory
