@@ -1,3 +1,2 @@
 #/usr/bin/env bash
-op get item "$1" | jq -r ".details.sections | map(select(.title == \"$2\")) | .[0].fields | map(select(.t == \"password\")) | .[0].v"
-
+op get item "$1" --fields "$2.password"
