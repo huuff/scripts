@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-bat -P TODO.md
+sed '/Future/Q' TODO.md | bat -P -l md
 ag TODO
