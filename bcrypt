@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-htpasswd -nbB "" "$1" | cut -d: -f2
+htpasswd -nbBC 10 "" "$1" | cut -d: -f2
