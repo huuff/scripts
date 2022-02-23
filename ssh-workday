@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+function get_field {
+  field=$(jq -r --arg t "$2" '.details.sections[0].fields[] | select(.t == $t) | .v' <<< "$1")
+  echo "$field"
+}
+
+# TODO: op list items --tags ssh-keys would be better
+keys_list=$(op list documents | jq -c '.[] | select(.overview.tags[] | contains("ssh-key"))')
+
+echo "Found $(wc -l <<< "$keys_list") keys:" 
+keys_uuids=$(jq -r ".uuid" <<< "$keys_list")
+
+for uuid in $keys_uuids
+do
+  item=$(op get item "$uuid")
+  file_name=$(jq -r '.details.documentAttributes.fileName' <<< "$item")
+  echo "* $file_name"
+
+  # Download them if they are not in ~/.ssh
+  file_location="$HOME/.ssh/$file_name"
+  if [ -f "$file_location" ]
+  then
+    printf "\t Is already in the .ssh folder\n"
+  else
+    printf "\t It's not locally available. Downloading it...\n"
+    op get document "$uuid" >> "$file_location"
+    chmod 0600 "$file_location"
+  fi
+
+  # Add them to the agent
+  public_key=$(get_field "$item" "public key")
+  if ssh-add -L | grep -q "$public_key"
+  then
+    printf "\t It's already in the agent\n"
+  else
+    printf "\t It's not in the agent. Adding it... \n"
+    passphrase=$(get_field "$item" "passphrase")
+    expect << EOF
+      log_user 0
+      spawn ssh-add -t8h "$file_location"
+      expect "Enter passphrase"
+      send "$passphrase\n"
+      expect eof
+EOF
+  fi
+done
+
+
