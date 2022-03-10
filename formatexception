@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Sometimes I copy-paste uglily formatted Java exceptions, this script formats it as they should be
+echo "$1" | sed -e "s|\\\n|\n|g" | sed -e "s|\\\t|\t|g"
