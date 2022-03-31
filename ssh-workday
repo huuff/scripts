@@ -1,20 +1,19 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 function get_field {
-  field=$(jq -r --arg t "$2" '.details.sections[0].fields[] | select(.t == $t) | .v' <<< "$1")
+  field=$(jq -r --arg l "$2" '.fields[] | select(.label == $l) | .value' <<< "$1")
   echo "$field"
 }
 
-# TODO: op list items --tags ssh-keys would be better
-keys_list=$(op list documents | jq -c '.[] | select(.overview.tags[] | contains("ssh-key"))')
+keys_ids=$(op document list --format json | jq -r '.[] | select(.tags[]? | contains("ssh-key")) | .id')
 
-echo "Found $(wc -l <<< "$keys_list") keys:" 
-keys_uuids=$(jq -r ".uuid" <<< "$keys_list")
+echo "Found $(wc -l <<< "$keys_ids") keys:" 
 
-for uuid in $keys_uuids
+for uuid in $keys_ids
 do
-  item=$(op get item "$uuid")
-  file_name=$(jq -r '.details.documentAttributes.fileName' <<< "$item")
+  item=$(op item get "$uuid" --format json)
+  file_name=$(jq -r '.files[0].name' <<< "$item")
   echo "* $file_name"
 
   # Download them if they are not in ~/.ssh
@@ -24,7 +23,7 @@ do
     printf "\t Is already in the .ssh folder\n"
   else
     printf "\t It's not locally available. Downloading it...\n"
-    op get document "$uuid" >> "$file_location"
+    op document get "$uuid" >> "$file_location"
     chmod 0600 "$file_location"
   fi
 
