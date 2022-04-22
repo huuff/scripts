@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# Runs a container that just sleeps with name `testc`
-# This helps for testing networking, just exec whatever you need into it like `kubectl exec testc -it -- «commands»`
-
-kubectl run testc --image=odise/busybox-curl --command -- sleep 3600
