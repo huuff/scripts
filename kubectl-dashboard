@@ -2,7 +2,7 @@
 
 # TODO: Maybe some config and flags? But it gets unwieldy quickly with bash
 
-NAMESPACE=kubernetes-dashboard
+NAMESPACE=observability
 USER=readonly-user
 TOKEN=$(kubectl get secret -n "$NAMESPACE" "$USER-token" -o jsonpath='{ .data.token }' | base64 -d)
 
