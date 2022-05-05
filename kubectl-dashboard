@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# TODO: Maybe some config and flags? But it gets unwieldy quickly with bash
+
+NAMESPACE=kubernetes-dashboard
+USER=readonly-user
+TOKEN=$(kubectl get secret -n "$NAMESPACE" "$USER-token" -o jsonpath='{ .data.token }' | base64 -d)
+
+echo "$TOKEN" | xsel -b
+
+echo "Token: $TOKEN"
+echo "The token has been copied to the clipboard"
+echo "Visit https://127.0.0.1:8443 to get the dashboard"
+
+POD_NAME=$(kubectl get pods -n "$NAMESPACE" -l "app.kubernetes.io/name=kubernetes-dashboard" -o jsonpath="{.items[0].metadata.name}")
+kubectl -n "$NAMESPACE" port-forward "$POD_NAME" 8443:8443
