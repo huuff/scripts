@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# TODO: Maybe some config and flags? But it gets unwieldy quickly with bash
+# TODO namespace from a -n flag (surely kubectl passes this somehow?)
 
 NAMESPACE=observability
-USER=readonly-user
+USER=$(kubectl -n "$NAMESPACE" get sa -l "haff.xyz/component=observability-service-account" -o jsonpath='{ .items[0].metadata.name }')
 TOKEN=$(kubectl get secret -n "$NAMESPACE" "$USER-token" -o jsonpath='{ .data.token }' | base64 -d)
 
 echo "$TOKEN" | xsel -b
