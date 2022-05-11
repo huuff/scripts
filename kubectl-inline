@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Open $EDITOR to edit a YAML and then apply it with kubernetes
+FILE=$(mktemp --suffix ".yaml")
+$EDITOR "$FILE"
+kubectl apply -f "$FILE"
