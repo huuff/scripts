@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Formats strings created by Java's lombok to make them human readable
+# XXX: This is far too slow
+
+separated_by_lines=$(cat "$1" | sed 's/,/,\n/g' | sed 's/\[/[\n/g' | sed 's/\]/\n]/g')
+
+indent=0
+for line in $separated_by_lines;
+do
+  tabs=$(for i in $(seq "$indent"); do printf "\t"; done)
+  echo "$tabs$line"
+
+  number_of_opening_brackets=$(echo "$line" | awk -F"[" '{print NF-1}')
+  number_of_closing_brackets=$(echo "$line" | awk -F"]" '{print NF-1}')
+  indent=$(("$indent" + "$number_of_opening_brackets"))
+  indent=$(("$indent" - "$number_of_closing_brackets"))
+done
