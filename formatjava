@@ -8,11 +8,11 @@ separated_by_lines=$(cat "$1" | sed 's/,/,\n/g' | sed 's/\[/[\n/g' | sed 's/\]/\
 indent=0
 for line in $separated_by_lines;
 do
-  tabs=$(for i in $(seq "$indent"); do printf "\t"; done)
+  number_of_closing_brackets=$(echo "$line" | awk -F"]" '{print NF-1}')
+  indent=$(("$indent" - "$number_of_closing_brackets"))
+  tabs=$(for i in $(seq "$indent"); do printf "  "; done)
   echo "$tabs$line"
 
   number_of_opening_brackets=$(echo "$line" | awk -F"[" '{print NF-1}')
-  number_of_closing_brackets=$(echo "$line" | awk -F"]" '{print NF-1}')
   indent=$(("$indent" + "$number_of_opening_brackets"))
-  indent=$(("$indent" - "$number_of_closing_brackets"))
 done
