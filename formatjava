@@ -3,7 +3,7 @@
 # Formats strings created by Java's lombok to make them human readable
 # XXX: This is far too slow
 
-separated_by_lines=$(cat "$1" | sed 's/,/,\n/g' | sed 's/\[/[\n/g' | sed 's/\]/\n]/g')
+separated_by_lines=$(cat - | sed 's/,/,\n/g' | sed 's/\[/[\n/g' | sed 's/\]/\n]/g')
 
 indent=0
 for line in $separated_by_lines;
