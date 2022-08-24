@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# To eject an external HDD
+sudo umount "$1" && sudo udisksctl power-off -b "$1"
