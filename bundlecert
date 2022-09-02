@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# TODO: Not very flexible, but enough for work atm
+
+cat certificate.crt <(echo "") certificate.ca.crt > "$1"
