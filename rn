@@ -7,7 +7,7 @@ file_dir=$(dirname "$file_path")
 
 # create a file with the name of the file being edited as contents
 temp=$(mktemp)
-trap "rm $temp" EXIT
+trap 'rm $temp' EXIT
 echo "$file_name" >> "$temp"
 
 # bring the editor to the user to give the new name
@@ -15,4 +15,9 @@ echo "$file_name" >> "$temp"
 new_name=$(cat "$temp")
 
 # actually rename the original file
-mv "$file_path" "$file_dir/$new_name"
+old_path=$file_path
+new_path="$file_dir/$new_name"
+
+if [ "$new_path" != "$old_path" ]; then
+  mv "$file_path" "$file_dir/$new_name"
+fi
