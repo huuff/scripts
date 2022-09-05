@@ -1,8 +1,17 @@
 #! /usr/bin/env bash
 # rename files in $EDITOR
 
+file_name=$(basename "$1")
+file_path=$(realpath "$1")
+file_dir=$(dirname "$file_path")
+
+# create a file with the name of the file being edited as contents
 temp=$(mktemp)
-echo "$1" >> "$temp"
+echo "$file_name" >> "$temp"
+
+# bring the editor to the user to give the new name
 "$EDITOR" "$temp"
 new_name=$(cat "$temp")
-mv "$1" "$new_name"
+
+# actually rename the original file
+mv "$file_path" "$file_dir/$new_name"

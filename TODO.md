@@ -7,5 +7,4 @@
 * Script idea: Get JSON from clipboard, remove anything extraneous and pretty-print it so I can quickly call it from rofi. UPDATE: I forgot what I meant with "call it from rofi"
 
 ## `rn`
-* Fix it so it works with files that aren't in the same directory
 * Allow it to receive a list of files, put them each in a separate line in vim and then apply the corresponding change

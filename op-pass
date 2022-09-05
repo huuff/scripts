@@ -1,2 +1,0 @@
-#/usr/bin/env bash
-op get item "$1" --fields "$2.password"

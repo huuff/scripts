@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function get_field {
+function get_field() (
   field=$(jq -r --arg l "$2" '.fields[] | select(.label == $l) | .value' <<< "$1")
   echo "$field"
-}
+)
 
 keys_ids=$(op document list --format json | jq -r '.[] | select(.tags[]? | contains("ssh-key")) | .id')
 
