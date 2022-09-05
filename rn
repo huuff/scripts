@@ -7,6 +7,7 @@ file_dir=$(dirname "$file_path")
 
 # create a file with the name of the file being edited as contents
 temp=$(mktemp)
+trap "rm $temp" EXIT
 echo "$file_name" >> "$temp"
 
 # bring the editor to the user to give the new name
