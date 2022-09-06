@@ -1,5 +1,42 @@
 #!/usr/bin/env bash
 # Open $EDITOR to edit a YAML and then apply it with kubernetes
-FILE=$(mktemp --suffix ".yaml")
-$EDITOR "$FILE"
-kubectl apply -f "$FILE"
+set -euo pipefail
+
+recovery_file=/tmp/kubectl-inline/last.yaml
+
+# Prepare a file to keep the last inline file made
+mkdir -p "$(dirname "$recovery_file")"
+touch "$recovery_file"
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -n|--namespace)
+      namespace="$2"
+      shift
+      shift
+      ;;
+    -r|--recover)
+      recover="TRUE"
+      shift
+      ;;
+  esac
+done
+
+# Create a temporary file to edit
+file=$(mktemp --suffix ".yaml")
+trap 'rm $file' EXIT
+
+# If recovering last file
+if [ -n "$recover" ]
+then 
+  cat "$recovery_file" > "$file" # Put its content into $file
+fi
+
+# Open it in $EDITOR
+"$EDITOR" "$file"
+
+# Save contents in /tmp/kubectl-inline/last to be able to recover it with -r
+cat "$file" > "$recovery_file"
+
+kubectl ${namespace:+-n $namespace} apply -f "$file"
