@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Retrieve versions of a package from maven central, ordered from newest to oldest
+# TODO: Also for nexus, npm?
+# TODO: Take -n«number of versions to show?»
 
 IFS=$'\n'
 
@@ -19,4 +21,18 @@ function maven_central() (
   done
 )
 
-maven_central "$1" | sort -nr | cut -d ' ' -f 2
+# Actual response
+ordered_versions="$(maven_central "$1" | sort -nr | cut -d ' ' -f 2)"
+
+# This is all just to print the first match in bold green
+readarray -t ordered_versions_array <<< "$ordered_versions"
+
+for i in "${!ordered_versions_array[@]}"; do
+  version="${ordered_versions_array[$i]}"
+  if [ "$i" -eq 0 ];
+  then
+    echo -e "\033[1;32m$version\e[0m"
+  else
+    echo "$version"
+  fi
+done
