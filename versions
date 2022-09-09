@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Retrieve versions of a package from maven central, ordered from newest to oldest
+
+IFS=$'\n'
+
+function maven_central() (
+  path="$(echo "$1" | tr "." "/")"
+  index="$(curl -sL "https://repo.maven.apache.org/maven2/$path/" \
+    | grep "</a>" \
+    | grep -v "metadata" \
+    | grep -v ">../<"
+    )"
+
+  for line in $index; do
+    version="$(echo "$line" | grep -Po "<a.*?>\K.*?(?=/</a>)")"
+    date="$(echo "$line" | grep -Po "\d\d\d\d-\d\d-\d\d \d\d:\d\d")"
+    date_as_epoch="$(date -d "$date" +%s)"
+    echo "$date_as_epoch $version"
+  done
+)
+
+maven_central "$1" | sort -nr | cut -d ' ' -f 2
