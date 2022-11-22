@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 
+# TODO: Check that udisks is installed
+
 # To eject an external HDD
 sudo umount "$1" && sudo udisksctl power-off -b "$1"
