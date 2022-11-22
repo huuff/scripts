@@ -2,3 +2,6 @@
 # TODO: Not very flexible, but enough for work atm
 
 cat certificate.crt <(echo "") certificate.ca.crt > "$1"
+
+# TODO: is this better?
+# paste -d"\n" -s certificate.crt certificate.ca.crt
