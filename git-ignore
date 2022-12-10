@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+# TODO: Make this have better UX for missing templates. Currently it only downloads an error page! Maybe even make selectable which gitignore to use with `fzf`
 
 curl -sL "https://www.gitignore.io/api/$1" > .gitignore
