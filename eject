@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 # To eject an external HDD
+# TODO: Does it work? Maybe I should use hdparm -y instead
 
 if which udisksctl
 then
