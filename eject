@@ -2,11 +2,11 @@
 # To eject an external HDD
 # TODO: Does it work? Maybe I should use hdparm -y instead
 
-if which udisksctl
+if which hdparm
 then
-  sudo umount "$1" && sudo udisksctl power-off -b "$1"
+  sudo umount "$1" && sudo hdparm -y "$1"
 else
-  echo "udisks is necessary to eject. Run nix shell nixpkgs#udisks"
+  echo "hdpark necessary to eject. Run nix shell nixpkgs#hdparm"
   exit 1
 fi
 
