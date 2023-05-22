@@ -4,7 +4,7 @@
 
 if which hdparm
 then
-  sudo umount "$1" && sudo hdparm -y "$1"
+  sudo umount "$1" && sleep 2 && sudo hdparm -y "$1"
 else
   echo "hdpark necessary to eject. Run nix shell nixpkgs#hdparm"
   exit 1
