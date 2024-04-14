@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# stolen from https://github.com/colonelpanic8/dotfiles/blob/00cfd236ab933db37306796080b3c7cc35a02ffe/dotfiles/lib/functions/find_store_path_gc_roots#L3
+
+store_path="$(realpath $1)"
+while IFS=' ' read -r gcroot derivation; do
+    if [[ ! $gcroot =~ ^/proc ]]; then
+        if nix-store -qR "$derivation" 2>/dev/null | grep -q "$store_path"; then
+    echo $gcroot
+        fi
+    fi
+done < <(nix-store --gc --print-roots | awk '{print $1, $3}')
