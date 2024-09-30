@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-nixos-container stop "$1" || true
-nixos-container destroy "$1" || true
-nixos-container create "$1" --flake .
-nixos-container start "$1"
