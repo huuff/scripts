@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#Gets the TODOs that are different between two branches
+
+left_branch=${1:?"missing left branch"}
+right_branch=${2:?"missing branch branch"}
+
+left_todos=$(mktemp)
+right_todos=$(mktemp)
+
+git checkout "$left_branch"
+ag --nofilename TODO | sed -r 's/^\W+(.*)/\1/' | sort | uniq > "$left_todos"
+
+
+git checkout "$right_branch"
+ag --nofilename TODO | sed -r 's/^\W+(.*)/\1/' | sort | uniq > "$right_todos"
+
+diff "$left_todos" "$right_todos"
